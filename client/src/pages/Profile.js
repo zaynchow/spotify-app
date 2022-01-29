@@ -1,5 +1,7 @@
-import { logout } from "../spotify";
+import { logout, getCurrentUserProfile } from "../spotify";
 import styled from "styled-components/macro";
+import { catchErrors } from "../utils";
+import { useEffect, useState } from "react";
 
 const StyledLoginButton = styled.a`
   background-color: var(--green);
@@ -11,7 +13,18 @@ const StyledLoginButton = styled.a`
   cursor: pointer;
 `;
 
-const Home = ({ profile }) => {
+const Profile = () => {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await getCurrentUserProfile();
+      setProfile(data);
+    };
+
+    catchErrors(fetchData());
+  }, []);
+
   return (
     <>
       <StyledLoginButton onClick={logout}>Log Out</StyledLoginButton>
@@ -29,5 +42,4 @@ const Home = ({ profile }) => {
   );
 };
 
-export default Home;
-export { StyledLoginButton };
+export default Profile;
