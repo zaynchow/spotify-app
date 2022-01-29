@@ -1,13 +1,43 @@
-import { accessToken, logout, getCurrentUserProfile } from "./spotify";
+import { accessToken, getCurrentUserProfile } from "./spotify";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   useLocation,
 } from "react-router-dom";
 import { catchErrors } from "./utils";
-import "./App.css";
+import Home, { StyledLoginButton } from "./pages/Home";
 import { useEffect, useState } from "react";
+import styled, { createGlobalStyle } from "styled-components/macro";
+
+const GlobalStyle = createGlobalStyle`
+
+
+  :root {
+    --black : #121212;
+    --green: #1D8954;
+    --white: #fff;
+
+    --font: 'Circular Std', -apple-system, BlinkMacSystemFont,system-ui,sans-serif;
+  }
+  
+  html {
+    box-sizing:border-box;
+  }
+
+  *, *:before,*:after {
+    box-sizing:inherit;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color:black;
+    color:white;
+  }
+
+  a{text-decoration:none}
+`;
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,43 +65,25 @@ function App() {
 
   return (
     <div className="App">
+      <GlobalStyle />
       <header className="App-header">
         {!token ? (
-          <a className="App-link" href="http://localhost:8888/login">
+          <StyledLoginButton
+            className="App-link"
+            href="http://localhost:8888/login"
+          >
             Login to Spotify
-          </a>
+          </StyledLoginButton>
         ) : (
           <Router>
             <ScrollToTop />
-            <Switch>
-              <Route path="/top-artists">
-                <h1>Top Artists</h1>
-              </Route>
-              <Route path="/top-tracks">
-                <h1>Top Tracks</h1>
-              </Route>
-              <Route path="/playlists/:id">
-                <h1>Playlist</h1>
-              </Route>
-              <Route path="/playlists">
-                <h1>Playlists</h1>
-              </Route>
-              <Route path="/">
-                <>
-                  <button onClick={logout}>Log Out</button>
-
-                  {profile && (
-                    <div>
-                      <h1>{profile.display_name}</h1>
-                      <p>{profile.followers.total} Followers</p>
-                      {profile.images.length && profile.images[0].url && (
-                        <img src={profile.images[0].url} alt="Avatar" />
-                      )}
-                    </div>
-                  )}
-                </>
-              </Route>
-            </Switch>
+            <Routes>
+              <Route path="/top-artists" element={<h1>Top Artists</h1>} />
+              <Route path="/top-tracks" element={<h1>Top Tracks</h1>} />
+              <Route path="/playlists/:id" element={<h1>Playlist</h1>} />
+              <Route path="/playlists" element={<h1>Playlists</h1>} />
+              <Route path="/" element={<Home profile={profile} />} />
+            </Routes>
           </Router>
         )}
       </header>
