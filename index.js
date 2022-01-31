@@ -36,13 +36,16 @@ app.get('/login', (req,res) =>  {
     const state  = makeid(16);
     res.cookie(stateKey,state);
 
-    res.redirect(`https://accounts.spotify.com/authorize/?` + queryString.stringify({
-        response_type: 'code',
-        client_id: CLIENT_ID,
-        redirect_uri: REDIRECT_URI,
-        scope: 'user-read-private user-read-email',
-        state: state,
-      })); 
+    res.redirect(
+      `https://accounts.spotify.com/authorize/?` +
+        queryString.stringify({
+          response_type: "code",
+          client_id: CLIENT_ID,
+          redirect_uri: REDIRECT_URI,
+          scope: "user-read-private user-read-email, user-top-read",
+          state: state,
+        })
+    ); 
 })
 
 app.get("/callback", (req, res) => {
