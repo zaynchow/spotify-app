@@ -71,7 +71,7 @@ app.get("/callback", (req, res) => {
         const { access_token, refresh_token, expires_in } = response.data;
 
         res.redirect(
-          "http://localhost:3000/?" +
+          `${process.env.PROD_CLIENT_BASE_URL}?` +
             queryString.stringify({
               access_token,
               refresh_token,
@@ -81,7 +81,7 @@ app.get("/callback", (req, res) => {
       } else {
         res.send(
           res.redirect(
-            "http://localhost:3000/?" +
+            `${process.env.PROD_CLIENT_BASE_URL}?` +
               queryString.stringify({
                 error: "invalid_token",
               })
