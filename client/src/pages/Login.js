@@ -26,7 +26,9 @@ const StyledLoginButton = styled.a`
 
 const Login = () => (
   <StyledLoginContainer>
-    <StyledLoginButton href="/api/login">Log in to Spotify</StyledLoginButton>
+    <StyledLoginButton href={`${process.env.PROD_BASE_URL}/login`}>
+      Log in to Spotify
+    </StyledLoginButton>
   </StyledLoginContainer>
 );
 
