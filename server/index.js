@@ -24,11 +24,7 @@ function makeid(length) {
 
 
 app.get('/', (req,res) =>  {
-    const data = {
-        name: req.query.name,
-        age: 19,
-    }
-    res.json(req.query);
+    res.json("Server is running");
 })
 
 
