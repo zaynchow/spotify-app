@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "server": "node index",
-    "client": "cd client && npm start",
-    "postbuild": "cd client/ && npm install --production && npm build"
+    "server": "node index.js",
+    "client": "cd client && npm start"
   },
   "keywords": [],
   "author": "",
